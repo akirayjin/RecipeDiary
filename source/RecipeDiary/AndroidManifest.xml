@@ -4,6 +4,13 @@
     android:versionCode="1"
     android:versionName="0.1" >
 
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="17" />
@@ -15,11 +22,22 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.akirayjin.recipediary.RecipeMainList"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.akirayjin.recipediary.RecipeEditActivity"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize"
+            android:label="@string/title_activity_recipe_edit" >
+        </activity>
+        <activity
+            android:name="com.akirayjin.recipediary.RecipeViewActivity"
+            android:label="@string/title_activity_recipe_view" >
         </activity>
     </application>
 

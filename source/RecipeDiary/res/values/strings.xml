@@ -2,7 +2,15 @@
 <resources>
 
     <string name="app_name">Recipe Diary</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_recipe_edit">RecipeEditActivity</string>
+    <string name="title_activity_recipe_view">RecipeViewActivity</string>
+    <string name="recipe_ingredient">Bahan-bahan:</string>
+    <string name="recipe_cook">Cara Memasak:</string>
+    <string name="recipe_title">Nama Resep:</string>
+    <string name="image_description">Gambar Resep</string>
+    <string name="image_button">Gambar Tombol</string>
+    <string name="header_add_title">Tambah Resep</string>
+    <string name="header_list_title">Daftar Resep</string>
+    <string name="empty_list">Daftar resep kosong silahkan tambah resep baru dengan tekan tombol + diatas</string>
 
 </resources>

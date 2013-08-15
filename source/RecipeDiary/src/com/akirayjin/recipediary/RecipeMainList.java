@@ -1,10 +1,18 @@
 package com.akirayjin.recipediary;
 
-import android.os.Bundle;
+import java.util.List;
+
 import android.app.Activity;
-import android.view.Menu;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -13,36 +21,62 @@ public class RecipeMainList extends Activity {
 	private ImageView addButton;
 	private ListView recipeList;
 	private LinearLayout emptyList;
+	private RecipeDatabaseSource rdbs;
+	private List<RecipeModel> array;
+	private RecipeListAdapter adapter;
+	private int selectedItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		rdbs = new RecipeDatabaseSource(this);
 		setContentView(R.layout.activity_main);
 		setAllView();
 		setAddOnClickListener();
 		setRecipeList();
 	}
-	
+
 	private void setAllView(){
 		addButton = (ImageView)findViewById(R.id.add_button);
 		recipeList = (ListView)findViewById(R.id.recipe_list);
 		emptyList = (LinearLayout)findViewById(R.id.empty_list);
 	}
-	
+
 	private void setAddOnClickListener(){
 		addButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
-				
+				Intent intent = new Intent(RecipeMainList.this, RecipeEditActivity.class);
+				startActivity(intent);
 			}
 		});
 	}
-	
+
 	private void setRecipeList(){
-		showDataList(false);
+		refreshRecipeArray();
+		if(array.size() > 0){
+			adapter = new RecipeListAdapter(this, array, rdbs);
+			recipeList.setAdapter(adapter);
+			recipeList.setOnItemClickListener(listClick);
+			registerForContextMenu(recipeList);
+			showDataList(true);
+		}else{
+			showDataList(false);
+		}
 	}
 	
+	private OnItemClickListener listClick = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> adap, View v, int position,
+				long id) {
+			Intent intent = new Intent(RecipeMainList.this, RecipeViewActivity.class);
+			intent.putExtra("position", position);
+			startActivity(intent);
+		}
+	};
+
 	private void showDataList(boolean state){
 		if(state){
 			emptyList.setVisibility(View.GONE);
@@ -53,11 +87,50 @@ public class RecipeMainList extends Activity {
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+	private void refreshRecipeArray(){
+		rdbs.open();
+		array = rdbs.getAllRecipe();
+		rdbs.close();
+		if(array.isEmpty()){
+			showDataList(false);
+		}
 	}
 
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) menuInfo;
+		selectedItem = info.position;
+		RecipeModel currentItem = (RecipeModel)adapter.getItem(selectedItem);
+		menu.setHeaderTitle(currentItem.getTitle());  
+		menu.add(0, v.getId(), 0, "Ubah");  
+		menu.add(0, v.getId(), 0, "Hapus");
+	}
+
+	@Override  
+	public boolean onContextItemSelected(MenuItem item) {  
+		if(item.getTitle()=="Ubah"){
+			
+		}  
+		else if(item.getTitle()=="Hapus"){
+			adapter.deleteRecipe(selectedItem);
+			refreshRecipeArray();
+		}  
+		else {
+			return false;
+		}  
+		return true;  
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		Intent intent = getIntent();
+		boolean isFromEdit = intent.getBooleanExtra("fromEdit", false);
+		if(isFromEdit){
+			refreshRecipeArray();
+			adapter.notifyDataSetChanged();
+		}
+	}
 }
