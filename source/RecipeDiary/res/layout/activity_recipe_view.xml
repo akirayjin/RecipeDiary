@@ -14,21 +14,33 @@
         android:layout_height="30dp"
         android:orientation="horizontal" >
 
+        <ImageView
+            android:id="@+id/view_delete_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="0"
+            android:contentDescription="@string/image_description"
+            android:src="@drawable/recipe_delete" />
+
         <TextView
             android:id="@+id/view_recipe_title"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="9"
             android:gravity="center"
-            android:textSize="7pt"
+            android:singleLine="true"
+            android:textSize="8pt"
             android:textStyle="bold" />
 
-        <!--<ImageView
-            android:id="@+id/save_button"
+        <ImageView
+            android:id="@+id/view_edit_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
             android:layout_weight="0"
-            android:src="@drawable/saving_icon" />-->
+            android:contentDescription="@string/image_description"
+            android:src="@drawable/recipe_edit" />
     </LinearLayout>
 
     <ScrollView

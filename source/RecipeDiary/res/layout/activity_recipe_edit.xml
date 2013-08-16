@@ -19,7 +19,9 @@
             android:layout_height="fill_parent"
             android:layout_weight="9"
             android:gravity="center"
-            android:text="@string/header_add_title" />
+            android:text="@string/header_add_title"
+            android:textSize="8pt"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/save_button"
@@ -55,7 +57,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/recipe_title" />
+                android:text="@string/recipe_title"
+                android:textSize="7pt"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/recipe_title"
@@ -68,7 +72,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/recipe_ingredient" />
+                android:text="@string/recipe_ingredient"
+                android:textSize="7pt"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/recipe_ingredient"
@@ -80,7 +86,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/recipe_cook" />
+                android:text="@string/recipe_cook"
+                android:textSize="7pt"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/recipe_cook"

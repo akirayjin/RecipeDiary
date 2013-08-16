@@ -2,6 +2,8 @@ package com.akirayjin.recipediary;
 
 import java.util.List;
 
+import com.akirayjin.utility.ConstantVariable;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,6 +51,7 @@ public class RecipeMainList extends Activity {
 			public void onClick(View v) {
 				Intent intent = new Intent(RecipeMainList.this, RecipeEditActivity.class);
 				startActivity(intent);
+				finish();
 			}
 		});
 	}
@@ -65,15 +68,16 @@ public class RecipeMainList extends Activity {
 			showDataList(false);
 		}
 	}
-	
+
 	private OnItemClickListener listClick = new OnItemClickListener() {
 
 		@Override
 		public void onItemClick(AdapterView<?> adap, View v, int position,
 				long id) {
 			Intent intent = new Intent(RecipeMainList.this, RecipeViewActivity.class);
-			intent.putExtra("position", position);
+			intent.putExtra(ConstantVariable.PUT_EXTRA_POSITION, position);
 			startActivity(intent);
+			finish();
 		}
 	};
 
@@ -104,16 +108,20 @@ public class RecipeMainList extends Activity {
 		selectedItem = info.position;
 		RecipeModel currentItem = (RecipeModel)adapter.getItem(selectedItem);
 		menu.setHeaderTitle(currentItem.getTitle());  
-		menu.add(0, v.getId(), 0, "Ubah");  
-		menu.add(0, v.getId(), 0, "Hapus");
+		menu.add(0, v.getId(), 0, ConstantVariable.EDIT);  
+		menu.add(0, v.getId(), 0, ConstantVariable.DELETE);
 	}
 
 	@Override  
 	public boolean onContextItemSelected(MenuItem item) {  
-		if(item.getTitle()=="Ubah"){
-			
+		if(item.getTitle() == ConstantVariable.EDIT){
+			Intent intent = new Intent(RecipeMainList.this, RecipeEditActivity.class);
+			intent.putExtra(ConstantVariable.PUT_EXTRA_EDIT_RECIPE, true);
+			intent.putExtra(ConstantVariable.PUT_EXTRA_POSITION, selectedItem);
+			startActivity(intent);
+			finish();
 		}  
-		else if(item.getTitle()=="Hapus"){
+		else if(item.getTitle() == ConstantVariable.DELETE){
 			adapter.deleteRecipe(selectedItem);
 			refreshRecipeArray();
 		}  
@@ -121,16 +129,5 @@ public class RecipeMainList extends Activity {
 			return false;
 		}  
 		return true;  
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		Intent intent = getIntent();
-		boolean isFromEdit = intent.getBooleanExtra("fromEdit", false);
-		if(isFromEdit){
-			refreshRecipeArray();
-			adapter.notifyDataSetChanged();
-		}
 	}
 }
