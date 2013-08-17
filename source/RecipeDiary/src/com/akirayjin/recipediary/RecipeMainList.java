@@ -1,6 +1,5 @@
 package com.akirayjin.recipediary;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -137,8 +136,7 @@ public class RecipeMainList extends Activity {
 	protected void onResume() {
 		if(isGoToOtherActivity){
 			isGoToOtherActivity = false;
-			refreshRecipeArray();
-			adapter.setNewData((ArrayList<RecipeModel>)array);
+			adapter.refreshData();
 		}
 		super.onResume();
 	}
