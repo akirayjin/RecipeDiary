@@ -3,6 +3,7 @@ package com.akirayjin.recipediary;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.akirayjin.utility.ConstantVariable;
+import com.akirayjin.utility.Utility;
 
 public class RecipeViewActivity extends Activity {
 	private int selectedItem;
@@ -61,18 +63,23 @@ public class RecipeViewActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				isGoToOtherActivity = true;
 				deleteRecipe();
 			}
 		});
 	}
 	
-	private void deleteRecipe(){
-		rdbs.open();
-		rdbs.deleteRecipe(currentRecipe);
-		rdbs.close();
-		Toast.makeText(this, ConstantVariable.RECIPE_HAS_DELETED, Toast.LENGTH_SHORT).show();
-		finish();
+	public void deleteRecipe(){
+		Utility.showDeleteDialog(this, title.getText().toString(), new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				rdbs.open();
+				rdbs.deleteRecipe(currentRecipe);
+				rdbs.close();
+				Toast.makeText(RecipeViewActivity.this.getApplicationContext(), ConstantVariable.RECIPE_HAS_DELETED, Toast.LENGTH_SHORT).show();
+				finish();
+			}
+		});
 	}
 	
 	private void setAllDataToView(){

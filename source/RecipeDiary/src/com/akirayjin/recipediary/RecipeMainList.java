@@ -3,6 +3,7 @@ package com.akirayjin.recipediary;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.akirayjin.utility.ConstantVariable;
+import com.akirayjin.utility.Utility;
 
 public class RecipeMainList extends Activity {
 	private ImageView addButton;
@@ -123,13 +125,24 @@ public class RecipeMainList extends Activity {
 			startActivity(intent);
 		}  
 		else if(item.getTitle() == ConstantVariable.DELETE){
-			adapter.deleteRecipe(selectedItem);
-			refreshRecipeArray();
+			RecipeModel currentItem = (RecipeModel)adapter.getItem(selectedItem);
+			Utility.showDeleteDialog(this, currentItem.getTitle(), new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					deleteRecipe();
+				}
+			});
 		}  
 		else {
 			return false;
 		}  
 		return true;
+	}
+	
+	public void deleteRecipe(){
+		adapter.deleteRecipe(selectedItem);
+		refreshRecipeArray();
 	}
 	
 	@Override

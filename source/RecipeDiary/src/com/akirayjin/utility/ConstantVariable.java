@@ -21,4 +21,8 @@ public class ConstantVariable {
 	public static final String RECIPE_HAS_SAVED = "Resep telah tersimpan";
 	public static final String RECIPE_HAS_DELETED = "Resep telah dihapus";
 	public static final String PUT_EXTRA_EDIT_RECIPE = "editRecipe";
+	public static final String DIALOG_TITLE = "Hapus %1$s";
+	public static final String DIALOG_MESSAGE = "Apakah anda yakin ingin menghapus resep %1$s ?";
+	public static final String DIALOG_BUTTON_POSITIVE = "Ya";
+	public static final String DIALOG_BUTTON_NEGATIVE = "Tidak";
 }

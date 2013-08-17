@@ -5,6 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -47,9 +51,24 @@ public class Utility {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static void showDeleteDialog(final Context context, String recipeTitle, OnClickListener clickListener){
+		AlertDialog alert = new AlertDialog.Builder(context).create();
+		alert.setCancelable(false);
+		alert.setTitle(String.format(ConstantVariable.DIALOG_TITLE, recipeTitle));
+		alert.setMessage(String.format(ConstantVariable.DIALOG_MESSAGE, recipeTitle));
+		alert.setButton(DialogInterface.BUTTON_POSITIVE,ConstantVariable.DIALOG_BUTTON_POSITIVE, clickListener);
+		alert.setButton(DialogInterface.BUTTON_NEGATIVE,ConstantVariable.DIALOG_BUTTON_NEGATIVE, new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		alert.show();
 	}
 }
