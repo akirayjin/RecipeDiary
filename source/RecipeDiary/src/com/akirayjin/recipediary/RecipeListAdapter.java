@@ -1,5 +1,6 @@
 package com.akirayjin.recipediary;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -68,6 +69,11 @@ public class RecipeListAdapter extends BaseAdapter{
 		rdbs.deleteRecipe(currentRecipe);
 		recipeArray = rdbs.getAllRecipe();
 		rdbs.close();
+		notifyDataSetChanged();
+	}
+	
+	public void setNewData(ArrayList<RecipeModel> newdata){
+		recipeArray = newdata;
 		notifyDataSetChanged();
 	}
 }

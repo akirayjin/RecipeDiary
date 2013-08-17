@@ -152,9 +152,6 @@ public class RecipeEditActivity extends Activity {
 		}
 		rdbs.close();
 		Toast.makeText(this, ConstantVariable.RECIPE_HAS_SAVED, Toast.LENGTH_SHORT).show();
-		Intent intent = new Intent(this, RecipeMainList.class);
-		//intent.putExtra(ConstantVariable.PUT_EXTRA_FROM_EDIT, true);
-		startActivity(intent);
 		finish();
 	}
 }

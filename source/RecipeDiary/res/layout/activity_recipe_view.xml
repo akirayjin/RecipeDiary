@@ -12,7 +12,8 @@
         android:id="@+id/header_list"
         android:layout_width="fill_parent"
         android:layout_height="30dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp" >
 
         <ImageView
             android:id="@+id/view_delete_button"

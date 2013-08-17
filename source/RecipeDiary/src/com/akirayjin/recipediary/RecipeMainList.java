@@ -1,8 +1,7 @@
 package com.akirayjin.recipediary;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import com.akirayjin.utility.ConstantVariable;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.akirayjin.utility.ConstantVariable;
+
 public class RecipeMainList extends Activity {
 	private ImageView addButton;
 	private ListView recipeList;
@@ -27,6 +28,7 @@ public class RecipeMainList extends Activity {
 	private List<RecipeModel> array;
 	private RecipeListAdapter adapter;
 	private int selectedItem;
+	private boolean isGoToOtherActivity = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +51,9 @@ public class RecipeMainList extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				isGoToOtherActivity = true;
 				Intent intent = new Intent(RecipeMainList.this, RecipeEditActivity.class);
 				startActivity(intent);
-				finish();
 			}
 		});
 	}
@@ -74,10 +76,10 @@ public class RecipeMainList extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> adap, View v, int position,
 				long id) {
+			isGoToOtherActivity = true;
 			Intent intent = new Intent(RecipeMainList.this, RecipeViewActivity.class);
 			intent.putExtra(ConstantVariable.PUT_EXTRA_POSITION, position);
 			startActivity(intent);
-			finish();
 		}
 	};
 
@@ -115,11 +117,11 @@ public class RecipeMainList extends Activity {
 	@Override  
 	public boolean onContextItemSelected(MenuItem item) {  
 		if(item.getTitle() == ConstantVariable.EDIT){
+			isGoToOtherActivity = true;
 			Intent intent = new Intent(RecipeMainList.this, RecipeEditActivity.class);
 			intent.putExtra(ConstantVariable.PUT_EXTRA_EDIT_RECIPE, true);
 			intent.putExtra(ConstantVariable.PUT_EXTRA_POSITION, selectedItem);
 			startActivity(intent);
-			finish();
 		}  
 		else if(item.getTitle() == ConstantVariable.DELETE){
 			adapter.deleteRecipe(selectedItem);
@@ -128,6 +130,16 @@ public class RecipeMainList extends Activity {
 		else {
 			return false;
 		}  
-		return true;  
+		return true;
+	}
+	
+	@Override
+	protected void onResume() {
+		if(isGoToOtherActivity){
+			isGoToOtherActivity = false;
+			refreshRecipeArray();
+			adapter.setNewData((ArrayList<RecipeModel>)array);
+		}
+		super.onResume();
 	}
 }

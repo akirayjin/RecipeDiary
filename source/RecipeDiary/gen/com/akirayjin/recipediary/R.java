@@ -23,8 +23,8 @@ public final class R {
     public static final class drawable {
         public static final int add=0x7f020000;
         public static final int camera_icon=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int recipe_delete=0x7f020003;
+        public static final int recipe_delete=0x7f020002;
+        public static final int recipe_diary_icon=0x7f020003;
         public static final int recipe_edit=0x7f020004;
         public static final int saving_icon=0x7f020005;
     }

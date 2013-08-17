@@ -24,6 +24,7 @@ public class RecipeViewActivity extends Activity {
 	private ArrayList<RecipeModel> recipeArray;
 	private RecipeDatabaseSource rdbs;
 	private RecipeModel currentRecipe;
+	private boolean isGoToOtherActivity = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +49,11 @@ public class RecipeViewActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				isGoToOtherActivity = true;
 				Intent intent = new Intent(RecipeViewActivity.this, RecipeEditActivity.class);
 				intent.putExtra(ConstantVariable.PUT_EXTRA_EDIT_RECIPE, true);
 				intent.putExtra(ConstantVariable.PUT_EXTRA_POSITION, selectedItem);
 				startActivity(intent);
-				finish();
 			}
 		});
 		
@@ -60,6 +61,7 @@ public class RecipeViewActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
+				isGoToOtherActivity = true;
 				deleteRecipe();
 			}
 		});
@@ -70,10 +72,6 @@ public class RecipeViewActivity extends Activity {
 		rdbs.deleteRecipe(currentRecipe);
 		rdbs.close();
 		Toast.makeText(this, ConstantVariable.RECIPE_HAS_DELETED, Toast.LENGTH_SHORT).show();
-		Intent intent = new Intent(this, RecipeMainList.class);
-		intent.putExtra(ConstantVariable.PUT_EXTRA_FROM_EDIT, true);
-		intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-		startActivity(intent);
 		finish();
 	}
 	
@@ -86,6 +84,15 @@ public class RecipeViewActivity extends Activity {
 		ingredient.setText(currentRecipe.getIngredient());
 		cookProcess.setText(currentRecipe.getCookProcess());
 		picture.setImageBitmap(currentRecipe.getImage());
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if(isGoToOtherActivity){
+			isGoToOtherActivity = false;
+			setAllDataToView();
+		}
 	}
 
 }
